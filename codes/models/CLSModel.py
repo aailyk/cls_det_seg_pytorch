@@ -79,9 +79,9 @@ class CLSModel:
 
 		save_path = os.path.join(self.options['model_save_path'], save_filename)
 		network = self.netG
-		if isinstance(network, nn.DataParallel) or isinstance(network, DistributedDataParallel):
+		if isinstance(network, nn.parallel.DataParallel) or isinstance(network, nn.parallel.DistributedDataParallel):
 			network = network.module
 		state_dict = network.state_dict()
 		for key, param in state_dict.items():
-			state[key] = param.cpu()
+			state_dict[key] = param.cpu()
 		torch.save(state_dict, save_path)
